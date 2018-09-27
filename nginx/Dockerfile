@@ -17,7 +17,8 @@ RUN yum -y update && yum clean all && \
     which \
     zip \
     unzip \
-    glibc-langpack-ja
+    glibc-langpack-ja \
+    lsof
 
 # set timezone
 RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
