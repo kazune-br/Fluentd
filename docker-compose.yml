@@ -13,12 +13,39 @@ services:
 #    ports:
 #    - 24224:24224
   nginx:
+    # build:
+    #  context: .
+    #  dockerfile: ./nginx/Dockerfile
+    container_name: nginx_server
     image: nginx:latest
     volumes:
     - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
     - 80:80
   django:
+    # build:
+    #  context: .
+    #  dockerfile: ./djangoApp/Dockerfile
+    container_name: django_server
     image: django
     ports:
     - 8000:8000
+
+  localstack:
+    container_name: localstack
+    image: localstack/localstack
+    ports:
+    - "4567-4583:4567-4583"
+    - "${PORT_WEB_UI-8080}:${PORT_WEB_UI-8080}"
+    environment:
+    - HOSTNAME_EXTERNAL=localstack
+    - SERVICES=${SERVICES- }
+    - DEBUG=${DEBUG- }
+    - DATA_DIR=${DATA_DIR- }
+    - PORT_WEB_UI=${PORT_WEB_UI- }
+    - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR- }
+    - KINESIS_ERROR_PROBABILITY=${KINESIS_ERROR_PROBABILITY- }
+    - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+    - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
+    - "/var/run/docker.sock:/var/run/docker.sock"
