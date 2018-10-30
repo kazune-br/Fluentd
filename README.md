@@ -5,4 +5,5 @@ This is a test repo to understand how Fluentd works.
 ```
 $ pip install -r ./djangoApp/requirements.txt
 $ docker-compose up -d
+$ TMPDIR=/private$TMPDIR docker-compose up
 ```
